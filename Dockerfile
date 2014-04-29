@@ -1,4 +1,4 @@
-FROM ubuntu:13.10
+FROM ubuntu:14.04
 MAINTAINER Johannes 'fish' Ziemke <docker@freigeist.org>
 
 RUN apt-get update && apt-get -y -q upgrade && apt-get -y -q install software-properties-common
