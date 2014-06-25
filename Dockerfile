@@ -20,7 +20,7 @@ RUN mkdir /ghost && chown nobody /ghost
 USER nobody
 ENV  HOME /ghost
 
-RUN git clone https://github.com/TryGhost/Ghost.git /ghost
+RUN git clone -b stable https://github.com/TryGhost/Ghost.git /ghost
 
 WORKDIR /ghost
 
