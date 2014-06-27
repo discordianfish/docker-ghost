@@ -7,7 +7,7 @@ RUN apt-get -y -q install python-software-properties python g++ make && \
     add-apt-repository ppa:chris-lea/node.js && \
     apt-get update
 
-RUN apt-get -y -q install nodejs python python-pygments curl git
+RUN apt-get -y -q install nodejs python python-pygments curl git libpq-dev gyp
 
 RUN curl -L https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 | \
     tar -C /usr/local -xjf - && ln -sf ../phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/
