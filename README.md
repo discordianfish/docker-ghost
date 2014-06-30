@@ -13,6 +13,8 @@ to locate your old and new containers volume path and copy your old content to t
 
 A cleaner but more advanced way would be to use
 [data volume containers](http://docs.docker.io/en/latest/use/working_with_volumes/#creating-and-mounting-a-data-volume-container).
+Just use the `fish/ghost` as a image when creating the data volume container, otherwise the\
+volume isn't preseeded with the theme and content directories.
 
 ## Run it with remote database
 To run Ghost with a remote database like MySQL, point DATABASE_URL to your database and URL
