@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER Johannes 'fish' Ziemke <docker@freigeist.org>
 
-RUN apt-get update && apt-get -y -q upgrade && apt-get -y -q install software-properties-common
+RUN apt-get update && apt-get -y -q upgrade && apt-get -y -q install software-properties-common libpq-dev gyp
 
 RUN apt-get -y -q install python-software-properties python g++ make && \
     add-apt-repository ppa:chris-lea/node.js && \
