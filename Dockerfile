@@ -24,10 +24,10 @@ RUN git clone -b stable https://github.com/TryGhost/Ghost.git /ghost
 
 WORKDIR /ghost
 
-RUN npm install grunt-cli && npm install && npm install pg && ./node_modules/.bin/grunt init
+RUN npm install grunt-cli && npm install && npm install pg && ./node_modules/.bin/grunt init --verbose
 
 ENV NODE_ENV production
-RUN ./node_modules/.bin/grunt prod
+RUN ./node_modules/.bin/grunt prod --verbose
 ADD config.js /ghost/
 
 USER root
