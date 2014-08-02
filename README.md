@@ -29,6 +29,10 @@ Or use Docker links and set DB_CLIENT, DB_USER and DB_PASSWORD:
                       -e URL=http://example.com -e DB_DATABASE=ghost <image-name>
 
 
+## Mail configuration
+Unfortunately Ghost doesn't support direct SMTP mailing, so you need a relay. This Docker image
+will read MAIL_HOST, MAIL_SERVICE, MAIL_USER and MAIL_PASS to setup mailing.
+
 ## Using custom config
 If you like to use a completely different config, you can bind mount
 your own config:

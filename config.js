@@ -48,6 +48,14 @@ function getDatabase() {
   return dbConfig;
 }
 
+function getMailConfig() {
+  var mailConfig = {}
+  if (process.env.MAIL_HOST)    { mailConfig['host']      = process.env.MAIL_HOST }
+  if (process.env.MAIL_SERVICE) { mailConfig['service']   = process.env.MAIL_SERVICE }
+  if (process.env.MAIL_USER) { mailConfig['auth']['user'] = process.env.MAIL_USER }
+  if (process.env.MAIL_PASS) { mailConfig['auth']['pass'] = process.env.MAIL_PASS }
+  return mailConfig;
+}
 if (!process.env.URL) {
   console.log("Please set URL environment variable to your blog's URL");
   process.exit(1);
@@ -57,6 +65,7 @@ config = {
   production: {
     url: process.env.URL,
     database: getDatabase(),
+    mail: getMailConfig(),
     server: {
       host: '0.0.0.0',
       port: '8080'
