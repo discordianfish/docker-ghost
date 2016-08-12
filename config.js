@@ -37,7 +37,6 @@ function getDatabase() {
     };
     return dbConfig;
   }
-
   var dbConfig = {
     client: 'sqlite3',
     connection: {
@@ -56,9 +55,15 @@ function getMailConfig() {
   if (process.env.MAIL_PASS) { mailConfig['auth']['pass'] = process.env.MAIL_PASS }
   return mailConfig;
 }
-if (!process.env.URL) {
+
+if (process.env.NODE_ENV == "production" && !process.env.URL) {
   console.log("Please set URL environment variable to your blog's URL");
   process.exit(1);
+}
+
+server = {
+  host: '0.0.0.0',
+  port: '8080'
 }
 
 config = {
@@ -66,10 +71,18 @@ config = {
     url: process.env.URL,
     database: getDatabase(),
     mail: getMailConfig(),
-    server: {
-      host: '0.0.0.0',
-      port: '8080'
-    }
+    server: server,
+  },
+  development: {
+    url: "http://localhost",
+    database: {
+      client: 'sqlite3',
+      connection: {
+        filename: '/tmp/ghost-dev.db'
+      }
+    },
+    server: server,
+    debug: true
   }
 };
 module.exports = config;

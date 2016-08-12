@@ -1,39 +1,30 @@
-FROM ubuntu:14.04
+FROM mhart/alpine-node:4
 MAINTAINER Johannes 'fish' Ziemke <docker@freigeist.org>
-
-RUN apt-get update && apt-get -y -q upgrade && apt-get -y -q install software-properties-common libpq-dev gyp
-
-RUN apt-get -y -q install python-software-properties python g++ make && \
-    add-apt-repository ppa:chris-lea/node.js && \
-    apt-get update
-
-RUN apt-get -y -q install nodejs python python-pygments curl git
-
-RUN curl -L https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2 | \
-    tar -C /usr/local -xjf - && ln -sf ../phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/
-
-RUN git clone git://github.com/n1k0/casperjs.git /usr/local/casperjs && \
-    ln -sf ../casperjs/bin/casperjs /usr/local/bin
-
-RUN mkdir /ghost && chown nobody /ghost
-
-USER nobody
-ENV  HOME /ghost
-
-RUN git clone https://github.com/TryGhost/Ghost.git /ghost
-
-WORKDIR /ghost
-
-RUN npm install grunt-cli && npm install && npm install pg && ./node_modules/.bin/grunt init --verbose
-
+ENV GHOST_VERSION 0.9.0
 ENV NODE_ENV production
-RUN ./node_modules/.bin/grunt prod --verbose
-ADD config.js /ghost/
 
-USER root
-RUN chown root:root /ghost/ -R
+EXPOSE 8080
+WORKDIR /usr/lib/ghost
 
-EXPOSE     8080
-ENTRYPOINT [ "npm" ]
-CMD        [ "start" ]
-VOLUME  [ "/ghost/content" ]
+RUN apk --no-cache add --virtual dev curl \
+    && curl -LsSfo ghost.zip https://ghost.org/archives/ghost-${GHOST_VERSION}.zip \
+    && unzip ghost.zip \
+    && rm ghost.zip \
+    && npm install --production \
+    && npm cache clean \
+    && apk del dev \
+    && rm -rf /tmp/npm* \
+    && mkdir /var/lib/ghost \
+    && for s in images data apps; do mv content/$s /var/lib/ghost \
+    && ln -s /var/lib/ghost/$s content/; done \
+    && adduser -D -h /var/lib/ghost user \
+    && chown -R user:user /var/lib/ghost content/themes
+    # No idea why ghost needs to have write permission to all those things..
+
+COPY config.js /usr/lib/ghost
+
+USER user 
+VOLUME  /var/lib/ghost
+
+ENTRYPOINT [ "node" ]
+CMD [ "index" ]
