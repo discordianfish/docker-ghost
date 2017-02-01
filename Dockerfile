@@ -1,13 +1,13 @@
 FROM mhart/alpine-node:4
 MAINTAINER Johannes 'fish' Ziemke <docker@freigeist.org>
-ENV GHOST_VERSION 0.9.0
+ENV GHOST_VERSION 0.11.4
 ENV NODE_ENV production
 
 EXPOSE 8080
 WORKDIR /usr/lib/ghost
 
 RUN apk --no-cache add --virtual dev curl \
-    && curl -LsSfo ghost.zip https://ghost.org/archives/ghost-${GHOST_VERSION}.zip \
+    && curl -LsSfo ghost.zip https://github.com/TryGhost/Ghost/releases/download/${GHOST_VERSION}/Ghost-${GHOST_VERSION}.zip \
     && unzip ghost.zip \
     && rm ghost.zip \
     && npm install --production \
