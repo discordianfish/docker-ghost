@@ -1,6 +1,6 @@
 FROM mhart/alpine-node:4
 MAINTAINER Johannes 'fish' Ziemke <docker@freigeist.org>
-ENV GHOST_VERSION 0.11.4
+ENV GHOST_VERSION 0.11.7
 ENV NODE_ENV production
 
 EXPOSE 8080
